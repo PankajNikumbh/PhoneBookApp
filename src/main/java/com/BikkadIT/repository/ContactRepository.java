@@ -8,4 +8,5 @@ import com.BikkadIT.model.Contact;
 @Repository
 public interface ContactRepository extends JpaRepository<Contact, Integer>{
 
+	
 }
