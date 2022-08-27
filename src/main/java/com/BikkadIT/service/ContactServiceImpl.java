@@ -2,6 +2,8 @@ package com.BikkadIT.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +29,12 @@ public class ContactServiceImpl implements ContactServiceI {
 
 	@Override
 	public List<Contact> getallContact() {
-		List<Contact> findAll = contactRepository.findAll();
-		return findAll;
+		List<Contact> contacts = contactRepository.findAll();
+		Stream<Contact> stream = contacts.stream();
+		Stream<Contact> filter = stream.filter(contact -> contact.getActiveswitch() == ('Y'));
+				List<Contact> collect = filter.collect(Collectors.toList());
+	
+		return collect;
 	}
 
 	@Override
@@ -58,13 +64,24 @@ public class ContactServiceImpl implements ContactServiceI {
 //		}
 //	}
 	
-	Contact findById = contactRepository.findById(cid).get();
-	if(findById != null) {
-		contactRepository.deleteById(cid);
-		return true;
+//	Contact findById = contactRepository.findById(cid).get();
+//	if(findById != null) {
+//		contactRepository.deleteById(cid);
+//		return true;
+//		}else {
+//			return false;
+//		}
+		Optional<Contact> contact = contactRepository.findById(cid);
+		
+		if(contact.isPresent()) {
+			Contact contact2 = contact.get();
+			contact2.setActiveswitch('N');
+			contactRepository.save(contact2);
+			return true;
 		}else {
 			return false;
 		}
-	}
+		
+		}
 
 }
