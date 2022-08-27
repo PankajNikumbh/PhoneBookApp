@@ -13,4 +13,6 @@ public interface ContactServiceI{
 	Contact getcontactById(Integer cid);
 	
 	public boolean updatecontact(Contact contact);
+	
+	boolean deleteContactById(Integer cid);
 }
