@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,6 +44,14 @@ public class ContactController {
 			String msg="Contact Details not found";
 		return new ResponseEntity(msg,HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@GetMapping(value ="/getcontactbyid/{cid}",produces="application/json" )
+	public ResponseEntity<Contact> getcontactbyid(@PathVariable Integer cid){
+		Contact getcontactById = contactServiceImpl.getcontactById(cid);
+		
+		return new ResponseEntity<Contact>(getcontactById,HttpStatus.OK);
+		
 	}
 
 }
