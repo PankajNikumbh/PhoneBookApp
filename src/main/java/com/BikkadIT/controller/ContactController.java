@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,6 +47,7 @@ public class ContactController {
 		}
 	}
 	
+	
 	@GetMapping(value ="/getcontactbyid/{cid}",produces="application/json" )
 	public ResponseEntity<Contact> getcontactbyid(@PathVariable Integer cid){
 		Contact getcontactById = contactServiceImpl.getcontactById(cid);
@@ -54,4 +56,17 @@ public class ContactController {
 		
 	}
 
+	@PutMapping(value="updateContact",produces="application/json")
+	public ResponseEntity<String> updateContact(@RequestBody Contact contact){
+		boolean updatecontact = contactServiceImpl.updatecontact(contact);
+		if(updatecontact == true) {
+			String msg="Contact updated successfully";
+			return new ResponseEntity<String>(msg,HttpStatus.OK);
+		}else {
+			String msg="Contact not updated successfully";
+			return new ResponseEntity<String>(msg,HttpStatus.BAD_REQUEST);
+		
+		}
+		
+	}
 }
